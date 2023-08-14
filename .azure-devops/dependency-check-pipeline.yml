@@ -1,0 +1,26 @@
+pool:
+  vmImage: 'ubuntu-latest'
+
+schedules:
+  - cron: '0 12 * * *'
+    displayName: 'Trigger dependency analysis'
+    branches:
+      include:
+        - master
+    always: true
+
+steps:
+  - task: JavaToolInstaller@0
+    inputs:
+      versionSpec: '17'
+      jdkArchitectureOption: 'x64'
+      jdkSourceOption: 'PreInstalled'
+
+  - task: Maven@3
+    displayName: 'Dependency analysis'
+    inputs:
+      mavenPomFile: 'pom.xml'
+      mavenOptions: '-Xmx3072m'
+      publishJUnitResults: true
+      testResultsFiles: '**/dependency-check-junit.xml'
+      goals: 'dependency-check:aggregate'
