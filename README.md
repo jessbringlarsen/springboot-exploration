@@ -43,5 +43,9 @@ By default, the application is packaged as a runnable jar. To wrap the applicati
 
      mvn jib:dockerBuild -pl :web-api
 
+Inspect the image using `docker images` and to start the container use the command:
+
+    docker run -p 8080:8080 dk.bringlarsen/springboot-exploration
+
 Happy coding!
 
