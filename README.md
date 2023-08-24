@@ -47,5 +47,10 @@ Inspect the image using `docker images` and to start the container use the comma
 
     docker run -p 8080:8080 dk.bringlarsen/springboot-exploration
 
+Push it do Dockerhub by doing:
+
+    docker login
+    docker push jebls/springboot-exploration:latest
+
 Happy coding!
 
