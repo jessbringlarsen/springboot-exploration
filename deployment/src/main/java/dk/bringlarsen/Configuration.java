@@ -17,7 +17,7 @@ public class Configuration {
     }
 
     private String getProperty(String name) {
-        String result = System.getenv("AWS_APPLICATION_NAME");
+        String result = System.getenv(name);
         if (Objects.isNull(result)) {
             throw new RuntimeException(name + " - property not defined!");
         }
