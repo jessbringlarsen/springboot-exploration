@@ -6,6 +6,10 @@ The `cdk.json` file tells the CDK Toolkit how to execute your app.
 
 It is a [Maven](https://maven.apache.org/) based project, so you can open this project with any Maven compatible Java IDE to build and run tests.
 
+## Setup
+
+Make sure to align the CDK version with the installed AWS CDK cli version.
+
 ## Useful commands
 
  * `mvn package`     compile and run tests
