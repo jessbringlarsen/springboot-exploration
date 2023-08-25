@@ -30,6 +30,7 @@
         <module>infrastructure</module>
         <module>shared</module>
         <module>acceptance-tests</module>
+        <module>deployment</module>
     </modules>
 
     <dependencyManagement>
