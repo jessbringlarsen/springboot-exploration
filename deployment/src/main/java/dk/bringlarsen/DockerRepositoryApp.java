@@ -27,7 +27,7 @@ public class DockerRepositoryApp {
 
         new DockerRepository(dockerRepositoryStack, "DockerRepository", awsEnvironment,
             new DockerRepositoryInputParameters(
-                String.format("%s-%s", configuration.getApplicationName(), "repo"),
+                configuration.getApplicationName(),
                 configuration.getAccountId()));
 
         app.synth();
