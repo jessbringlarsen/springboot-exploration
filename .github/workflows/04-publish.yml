@@ -34,17 +34,23 @@ jobs:
       - name: Create image
         run: mvn jib:dockerBuild -pl :web-api
 
-      - name: Create Docker image tag
+      - name: Create Docker image branch name tag
+        shell: bash
+        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
+        id: extract_branch
+
+      - name: Create Docker image date tag
         id: dockerImageTag
         run: echo "tag=$(date +'%Y%m%d%H%M%S')-${GITHUB_SHA}" >> $GITHUB_OUTPUT
 
       - name: Publish Docker image to ECR registry
-        if: github.ref == 'refs/heads/main' || contains(github.event.head_commit.message, 'DEPLOY NOW')
         env:
           DOCKER_IMAGE_TAG: ${{ steps.dockerImageTag.outputs.tag }}
+          DOCKER_IMAGE_BRANCH: ${{ steps.extract_branch.outputs.branch }}
         working-directory: deployment
         run: |
           docker tag dk.bringlarsen/springboot-exploration ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/springboot-exploration:${DOCKER_IMAGE_TAG}
+          docker tag dk.bringlarsen/springboot-exploration ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/springboot-exploration:${DOCKER_IMAGE_BRANCH}
           docker tag dk.bringlarsen/springboot-exploration ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/springboot-exploration:latest
           aws ecr get-login-password --region ${AWS_REGION} | docker login --username AWS --password-stdin ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com
           docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/springboot-exploration:${DOCKER_IMAGE_TAG}
