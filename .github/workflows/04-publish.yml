@@ -37,7 +37,7 @@ jobs:
         run: echo "POM_VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_ENV
 
       - name: Create Docker image tag
-        run: echo "DOCKER_IMAGE_TAG=${POM_VERSION}-$(date +'%Y%m%d%H%M%S')-${GITHUB_SHA}" >> $GITHUB_OUTPUT
+        run: echo "DOCKER_IMAGE_TAG=${POM_VERSION}-$(date +'%Y%m%d%H%M%S')-${GITHUB_SHA}" >> $GITHUB_ENV
 
       - name: Publish Docker image to ECR registry
         working-directory: deployment
