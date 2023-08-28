@@ -1,0 +1,51 @@
+name: 04 - Publish
+
+env:
+  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
+  AWS_REGION: ${{ vars.AWS_REGION }}
+  AWS_APPLICATION_NAME: ${{ vars.AWS_APPLICATION_NAME }}
+
+on:
+  workflow_dispatch
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-20.04
+    name: Build and publish
+    outputs:
+      dockerImageTag: ${{ steps.dockerImageTag.outputs.tag }}
+    steps:
+
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: 17
+          cache: maven
+
+      - name: Build
+        run: mvn -B package --file pom.xml
+
+      - name: Create image
+        run: mvn jib:dockerBuild -pl :web-api
+
+      - name: Create Docker image tag
+        id: dockerImageTag
+        run: echo "tag=$(date +'%Y%m%d%H%M%S')-${GITHUB_SHA}" >> $GITHUB_OUTPUT
+
+      - name: Publish Docker image to ECR registry
+        #if: github.ref == 'refs/heads/main' || contains(github.event.head_commit.message, 'DEPLOY NOW')
+        env:
+          DOCKER_IMAGE_TAG: ${{ steps.dockerImageTag.outputs.tag }}
+        working-directory: deployment
+        run: |
+          docker tag dk.bringlarsen/springboot-exploration ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/springboot-exploration:${DOCKER_IMAGE_TAG}
+          docker tag dk.bringlarsen/springboot-exploration ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/springboot-exploration:latest
+          aws ecr get-login-password --region ${AWS_REGION} | docker login --username AWS --password-stdin ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com
+          docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/springboot-exploration:${DOCKER_IMAGE_TAG}
+          docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/springboot-exploration:latest
