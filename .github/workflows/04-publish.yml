@@ -17,7 +17,6 @@ jobs:
     outputs:
       dockerImageTag: ${{ steps.dockerImageTag.outputs.tag }}
     steps:
-
       - name: Checkout code
         uses: actions/checkout@v3
 
@@ -31,26 +30,20 @@ jobs:
       - name: Build
         run: mvn -B install
 
-      - name: Create image
+      - name: Create docker image
         run: mvn jib:dockerBuild -pl :web-api
 
-      - name: Create Docker image branch name tag
-        id: docker_tag_branch
-        shell: bash
-        run: echo "tag_branch=${GITHUB_REF#refs/heads/}" >> $GITHUB_OUTPUT
+      - name: Extract application version
+        run: echo "POM_VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_ENV
 
-      - name: Create Docker image date tag
-        id: docker_tag_timestamp
-        run: echo "tag_ts=$(date +'%Y%m%d%H%M%S')-${GITHUB_SHA}" >> $GITHUB_OUTPUT
+      - name: Create Docker image tag
+        run: echo "DOCKER_IMAGE_TAG=${POM_VERSION}-$(date +'%Y%m%d%H%M%S')-${GITHUB_SHA}" >> $GITHUB_OUTPUT
 
       - name: Publish Docker image to ECR registry
-        env:
-          DOCKER_TAG_TS: ${{ steps.docker_tag_timestamp.outputs.tag_ts }}
-          DOCKER_TAG_BRANCH: ${{ steps.docker_tag_branch.outputs.tag_branch }}
         working-directory: deployment
         run: |
-          docker tag dk.bringlarsen/springboot-exploration ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/springboot-exploration:${DOCKER_TAG_TS}
-          docker tag dk.bringlarsen/springboot-exploration ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/springboot-exploration:${DOCKER_TAG_BRANCH}
+          docker tag dk.bringlarsen/springboot-exploration ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/springboot-exploration:${DOCKER_IMAGE_TAG}
+          docker tag dk.bringlarsen/springboot-exploration ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/springboot-exploration:latest
           aws ecr get-login-password --region ${AWS_REGION} | docker login --username AWS --password-stdin ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com
-          docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/springboot-exploration:${DOCKER_TAG_TS}
-          docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/springboot-exploration:${DOCKER_TAG_BRANCH}
+          docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/springboot-exploration:${DOCKER_IMAGE_TAG}
+          docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/springboot-exploration:latest
