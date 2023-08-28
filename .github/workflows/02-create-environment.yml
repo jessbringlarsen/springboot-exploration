@@ -40,8 +40,9 @@ jobs:
         run: npm install
 
       - name: Setup environment
-        env:
-          APP_ENVIRONMENT_NAME: ${{ github.event.inputs.environmentName }}
+        run: echo "APP_ENVIRONMENT_NAME=${{ github.event.inputs.environmentName }}" >> $GITHUB_ENV
+
+      - name: Display environment
         run: env
 
       - name: Deploy network stack
