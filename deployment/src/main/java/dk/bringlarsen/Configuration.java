@@ -25,6 +25,19 @@ public class Configuration {
         return getOptionalProperty("SSL_CERTIFICATE_ARN");
     }
 
+    public String getDockerRepositoryName() {
+        return getMandatoryProperty("DOCKER_REPO_NAME");
+    }
+
+    public String getDockerImageTag() {
+        return getMandatoryProperty("DOCKER_IMAGE_TAG");
+    }
+
+    public String getSpringBootProfile() {
+        Optional<String> springProfile = getOptionalProperty("SPRING_PROFILE");
+        return springProfile.orElse("default");
+    }
+
     private String getMandatoryProperty(String name) {
         return getProperty(name, true);
     }
