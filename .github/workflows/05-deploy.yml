@@ -11,8 +11,9 @@ on:
   workflow_dispatch:
     inputs:
       docker-image-tag:
-        description: "The Docker image to deploy"
+        description: "The Docker image tag to deploy"
         required: true
+        default: 'latest'
       environmentName:
         description: 'The name of the environment to create.'
         options:
