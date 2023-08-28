@@ -6,6 +6,7 @@ env:
   AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
   AWS_REGION: ${{ vars.AWS_REGION }}
   AWS_APPLICATION_NAME: ${{ vars.AWS_APPLICATION_NAME }}
+  DOCKER_REPO_NAME: ${{ vars.DOCKER_REPO_NAME }}
 
 on:
   workflow_dispatch:
@@ -25,7 +26,7 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-20.04
-    name: Deploy Todo App
+    name: Deploy application
     if: github.ref == 'refs/heads/main'
     steps:
 
