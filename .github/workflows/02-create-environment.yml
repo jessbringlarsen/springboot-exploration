@@ -39,8 +39,11 @@ jobs:
         working-directory: deployment
         run: npm install
 
-      - name: Deploy network stack
+      - name: Setup environment
         env:
-          ENVIRONMENT_NAME: ${{ github.event.inputs.environmentName }}
+          APP_ENVIRONMENT_NAME: ${{ github.event.inputs.environmentName }}
+        run: env
+
+      - name: Deploy network stack
         working-directory: deployment
         run: npm run network:deploy
