@@ -39,7 +39,7 @@ jobs:
           cache: 'maven'
 
       - name: NPM install
-        working-directory: cdk
+        working-directory: deployment
         run: npm install
 
       - name: Setup environment
@@ -48,5 +48,5 @@ jobs:
           echo "DOCKER_IMAGE_TAG=${{ github.event.inputs.docker-image-tag }}" >> $GITHUB_ENV
 
       - name: Deploy
-        working-directory: cdk
+        working-directory: deployment
         run: npm run service:deploy
