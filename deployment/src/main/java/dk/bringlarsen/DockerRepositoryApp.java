@@ -7,6 +7,8 @@ import software.amazon.awscdk.Environment;
 import software.amazon.awscdk.Stack;
 import software.amazon.awscdk.StackProps;
 
+import java.util.Collections;
+
 public class DockerRepositoryApp {
     public static void main(final String[] args) {
         Configuration configuration = new Configuration();
@@ -18,13 +20,14 @@ public class DockerRepositoryApp {
                 .build();
         Stack dockerRepositoryStack = new Stack(app, "DockerRepositoryApp",
             StackProps.builder()
-                .stackName(configuration.getApplicationName())
+                .stackName(String.format("%s-%s", configuration.getApplicationName(), "repo"))
+                .tags(Collections.singletonMap("project", configuration.getApplicationName()))
                 .env(awsEnvironment)
                 .build());
 
         new DockerRepository(dockerRepositoryStack, "DockerRepository", awsEnvironment,
             new DockerRepositoryInputParameters(
-                configuration.getApplicationName() + "-repo",
+                String.format("%s-%s", configuration.getApplicationName(), "repo"),
                 configuration.getAccountId()));
 
         app.synth();

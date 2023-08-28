@@ -22,7 +22,7 @@ public class NetworkApp {
             .build();
 
         Stack networkStack = new Stack(app, "NetworkStack", StackProps.builder()
-            .stackName(configuration.getEnvironmentName() + "-network")
+            .stackName(String.format("%s-%s-%s", configuration.getApplicationName(), configuration.getEnvironmentName(), "network"))
             .tags(Collections.singletonMap("project", configuration.getApplicationName()))
             .env(awsEnvironment)
             .build());
