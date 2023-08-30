@@ -50,11 +50,12 @@ jobs:
           echo "APP_ENVIRONMENT_NAME=${{ github.event.inputs.environmentName }}" >> $GITHUB_ENV
           echo "DOCKER_IMAGE_TAG=${{ github.event.inputs.docker-image-tag }}" >> $GITHUB_ENV
 
-      - name: Setup environment, scheduled
-        if: github.event_name == 'schedule'
+      - name: Fetch image tag
         uses: actions/download-artifact@v3
         with:
           name: commit-stage
+      - name: Initialize environment variables
+        if: github.event_name == 'schedule'
         run: |
           echo "DOCKER_IMAGE_TAG=`ls -t | head -n1`" >> $GITHUB_ENV
           echo "APP_ENVIRONMENT_NAME=dev" >> $GITHUB_ENV
