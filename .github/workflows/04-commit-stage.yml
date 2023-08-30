@@ -58,7 +58,7 @@ jobs:
           docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/springboot-exploration:latest
 
       - name: Create tag file
-        run: touch ${{ env.FILE_NAME }}
+        run: touch ${{ env.DOCKER_IMAGE_TAG }}
 
       - name: Mark docker image as created
         uses: actions/upload-artifact@v3
