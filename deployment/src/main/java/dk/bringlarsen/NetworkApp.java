@@ -37,7 +37,7 @@ public class NetworkApp {
             inputParameters);
 
 
-        new CfnOutput(networkStack, "ALBDnsName", CfnOutputProps.builder()
+        new CfnOutput(networkStack, "loadBalancerDNS", CfnOutputProps.builder()
             .value(network.getLoadBalancer().getLoadBalancerDnsName())
             .description("The DNS name of the application load balancer")
             .build());
