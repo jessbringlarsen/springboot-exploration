@@ -2,10 +2,7 @@ package dk.bringlarsen;
 
 import dev.stratospheric.cdk.Network;
 import dev.stratospheric.cdk.Network.NetworkInputParameters;
-import software.amazon.awscdk.App;
-import software.amazon.awscdk.Environment;
-import software.amazon.awscdk.Stack;
-import software.amazon.awscdk.StackProps;
+import software.amazon.awscdk.*;
 
 import java.util.Collections;
 import java.util.Optional;
@@ -32,12 +29,18 @@ public class NetworkApp {
         Optional<String> sslCertificateArn = configuration.getSSLCertificateArn();
         sslCertificateArn.ifPresent(inputParameters::withSslCertificateArn);
 
-        new Network(
+        Network network = new Network(
             networkStack,
             "Network",
             awsEnvironment,
             configuration.getEnvironmentName(),
             inputParameters);
+
+
+        new CfnOutput(networkStack, "loadBalancerDNS", CfnOutputProps.builder()
+            .value(network.getLoadBalancer().getLoadBalancerDnsName())
+            .description("The DNS name of the application load balancer")
+            .build());
 
         app.synth();
     }
