@@ -8,7 +8,14 @@ env:
   AWS_APPLICATION_NAME: ${{ vars.AWS_APPLICATION_NAME }}
 
 on:
-  workflow_dispatch
+  push:
+    branches:
+      - main
+      - release/*
+  pull_request:
+    branches:
+      - main
+      - release/*
 
 jobs:
   build-and-publish:
@@ -28,7 +35,7 @@ jobs:
           cache: maven
 
       - name: Build
-        run: mvn -B install
+        run: mvn -B install -DskipITs
 
       - name: Create docker image
         run: mvn jib:dockerBuild -pl :web-api

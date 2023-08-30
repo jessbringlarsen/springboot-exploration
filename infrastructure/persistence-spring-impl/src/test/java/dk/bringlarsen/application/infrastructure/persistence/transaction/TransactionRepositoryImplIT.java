@@ -21,7 +21,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @DataJpaTest(showSql = false)
 @ExtendWith(SpringExtension.class)
-class TransactionRepositoryImplTest extends BaseRepositoryTest {
+class TransactionRepositoryImplIT extends BaseRepositoryTest {
 
     private static final UUID ACCOUNT_ID = UUID.fromString("3d895f65-0baf-49fc-8edd-ea01374a4dfd");
 

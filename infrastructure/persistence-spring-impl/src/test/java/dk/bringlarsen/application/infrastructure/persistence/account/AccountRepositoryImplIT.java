@@ -25,7 +25,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @Tag("integrationtest")
 @DataJpaTest(showSql = false)
 @ExtendWith(SpringExtension.class)
-class AccountRepositoryImplTest extends BaseRepositoryTest {
+class AccountRepositoryImplIT extends BaseRepositoryTest {
 
     @Autowired
     AccountSpringDataRepository springDataRepository;
