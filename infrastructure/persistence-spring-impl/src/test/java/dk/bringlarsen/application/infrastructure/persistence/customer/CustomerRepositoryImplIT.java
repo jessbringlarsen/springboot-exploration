@@ -23,7 +23,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @DataJpaTest(showSql = false)
 @Tag("integrationtest")
 @ExtendWith(SpringExtension.class)
-class CustomerRepositoryImplTest extends BaseRepositoryTest {
+class CustomerRepositoryImplIT extends BaseRepositoryTest {
 
     @Autowired
     CustomerSpringDataRepository springDataRepository;
