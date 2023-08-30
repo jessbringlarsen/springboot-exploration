@@ -52,15 +52,12 @@ jobs:
 
       - name: Setup environment, scheduled
         if: github.event_name == 'schedule'
-        steps:
-          - name: Fetch image tag
-            uses: actions/download-artifact@v3
-            with:
-              name: commit-stage
-          - shell: bash
-            run: |
-              echo "DOCKER_IMAGE_TAG=`ls -t | head -n1`" >> $GITHUB_ENV
-              echo "APP_ENVIRONMENT_NAME=dev" >> $GITHUB_ENV
+        uses: actions/download-artifact@v3
+        with:
+          name: commit-stage
+        run: |
+          echo "DOCKER_IMAGE_TAG=`ls -t | head -n1`" >> $GITHUB_ENV
+          echo "APP_ENVIRONMENT_NAME=dev" >> $GITHUB_ENV
 
       - name: Deploy
         working-directory: deployment
