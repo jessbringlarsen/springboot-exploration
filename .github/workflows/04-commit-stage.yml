@@ -1,4 +1,4 @@
-name: 04 - Publish
+name: 04 - Commit stage
 
 env:
   AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
