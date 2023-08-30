@@ -37,13 +37,15 @@ jobs:
         run: echo "POM_VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_ENV
 
       - name: Create Docker image tag
-        run: echo "DOCKER_IMAGE_TAG=${POM_VERSION}-$(date +'%Y%m%d%H%M%S')-${GITHUB_SHA}" >> $GITHUB_ENV
+        run: echo "DOCKER_IMAGE_TAG=$(date +'%Y%m%d%H%M%S')-${GITHUB_SHA}" >> $GITHUB_ENV
 
       - name: Publish Docker image to ECR registry
         working-directory: deployment
         run: |
           docker tag dk.bringlarsen/springboot-exploration ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/springboot-exploration:${DOCKER_IMAGE_TAG}
+          docker tag dk.bringlarsen/springboot-exploration ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/springboot-exploration:${POM_VERSION}
           docker tag dk.bringlarsen/springboot-exploration ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/springboot-exploration:latest
           aws ecr get-login-password --region ${AWS_REGION} | docker login --username AWS --password-stdin ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com
           docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/springboot-exploration:${DOCKER_IMAGE_TAG}
+          docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/springboot-exploration:${POM_VERSION}
           docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/springboot-exploration:latest
