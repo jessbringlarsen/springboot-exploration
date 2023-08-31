@@ -9,7 +9,7 @@ create table account (
     customer_id uuid not null,
     name varchar(255) not null,
     primary key (id),
-    foreign key (customer_id) references customer (id) check
+    foreign key (customer_id) references customer (id)
 );
 
 create table transaction_table (
@@ -19,5 +19,5 @@ create table transaction_table (
     amount decimal,
     transaction_date timestamp,
     primary key (id),
-    foreign key (account_id) references account (id) check
+    foreign key (account_id) references account (id)
 );
