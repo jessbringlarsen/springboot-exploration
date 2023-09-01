@@ -112,6 +112,7 @@
                 <version>0.43.4</version>
                 <extensions>true</extensions>
                 <configuration>
+                    <skip>${skipTests}</skip>
                     <images>
                         <image>
                             <name>test-database</name>
