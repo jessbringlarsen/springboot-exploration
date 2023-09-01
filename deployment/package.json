@@ -11,6 +11,8 @@
     "repository:destroy": "cdk destroy --app \"mvn -e -q compile exec:java -Dexec.mainClass=dk.bringlarsen.DockerRepositoryApp\" --force --require-approval never",
     "service:deploy": "cdk deploy --app \"mvn -e -q compile exec:java -Dexec.mainClass=dk.bringlarsen.ServiceApp\" --require-approval never --all",
     "service:destroy": "cdk destroy --app \"mvn -e -q compile exec:java -Dexec.mainClass=dk.bringlarsen.ServiceApp\" --force --require-approval never --all",
+    "database:deploy": "cdk deploy --app \"mvn -e -q compile exec:java -Dexec.mainClass=dk.bringlarsen.DatabaseApp\" --require-approval never",
+    "database:destroy": "cdk destroy --app \"mvn -e -q compile exec:java -Dexec.mainClass=dk.bringlarsen.DatabaseApp\" --force --require-approval never",
     "monitoring:deploy": "cdk deploy --app \"./mvnw -e -q compile exec:java -Dexec.mainClass=dev.stratospheric.todoapp.cdk.MonitoringApp\" --require-approval never",
     "monitoring:destroy": "cdk destroy --app \"./mvnw -e -q compile exec:java -Dexec.mainClass=dev.stratospheric.todoapp.cdk.MonitoringApp\" --force --require-approval never"
   },
