@@ -1,5 +1,8 @@
 name: 05 - Deploy the application
 
+# https://docs.github.com/en/actions/deployment/about-deployments/deploying-with-github-actions#using-concurrency
+# There will be a maximum of one running and one pending job or workflow in that uses the production concurrency group.
+# Only the youngest pending job will be kept the others will be canceled.
 concurrency: production
 
 env:
@@ -58,6 +61,10 @@ jobs:
           echo "DOCKER_IMAGE_TAG=latest" >> $GITHUB_ENV
           echo "APP_ENVIRONMENT_NAME=dev" >> $GITHUB_ENV
 
-      - name: Deploy
+      - name: Deploy database
+        working-directory: deployment
+        run: npm run database:deploy
+
+      - name: Deploy service
         working-directory: deployment
         run: npm run service:deploy
