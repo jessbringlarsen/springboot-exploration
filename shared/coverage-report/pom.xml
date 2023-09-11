@@ -60,6 +60,7 @@
                 <artifactId>jacoco-maven-plugin</artifactId>
                 <version>${org.jacoco.version}</version>
                 <configuration>
+                    <skip>${skipTests}</skip>
                     <formats>XML,HTML</formats>
                     <excludes>
                         <exclude>**/model/*</exclude>

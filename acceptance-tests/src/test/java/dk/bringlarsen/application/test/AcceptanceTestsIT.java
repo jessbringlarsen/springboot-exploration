@@ -6,5 +6,4 @@ import org.junit.platform.suite.api.Suite;
 @Suite
 @SelectClasspathResource("dk/bringlarsen/application/test")
 public class AcceptanceTestsIT {
-
 }
