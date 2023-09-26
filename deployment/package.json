@@ -17,7 +17,7 @@
     "monitoring:destroy": "cdk destroy --app \"./mvnw -e -q compile exec:java -Dexec.mainClass=dev.stratospheric.todoapp.cdk.MonitoringApp\" --force --require-approval never"
   },
   "devDependencies": {
-    "aws-cdk": "2.93.0"
+    "aws-cdk": "2.97.1"
   },
   "engines": {
     "node": ">=16"
