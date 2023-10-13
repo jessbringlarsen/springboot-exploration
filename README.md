@@ -22,13 +22,13 @@ to verify that the server is up and running.
 
 To start up the project locally using Maven do:
 
-    mvn spring-boot:run -pl :web-api
+`mvn spring-boot:run -pl :web-api`
 
 ### Configuration
 
-If you wish to override the properties provided on classpath use the `spring.config.additional-location` property. Below is an example when using the Spring boot Maven plugin:
+If you wish to override the properties provided on classpath use the `spring.config.additional-location` property. Example when using the Spring boot Maven plugin:
 
-    mvn spring-boot:run -Dspring-boot.run.profiles=dev -Dspring-boot.run.jvmArguments="-Dspring.config.additional-location=optional:file:c:/temp/app.properties" -pl :web-api
+`mvn spring-boot:run -Dspring-boot.run.profiles=dev -Dspring-boot.run.jvmArguments="-Dspring.config.additional-location=optional:file:c:/temp/app.properties" -pl :web-api`
 
 See the [Spring documentation](https://docs.spring.io/spring-boot/docs/3.1.4/reference/htmlsingle/#features.external-config.files) for details.
 
@@ -40,20 +40,16 @@ By default, the `prod` profile is active and to use another profile add the VM o
     -Dspring.profiles.active=dev
 
 Doing the same using the Spring Boot Maven plugin: 
-
-    mvn spring-boot:run -Dspring-boot.run.profiles=dev -pl :web-api
+`mvn spring-boot:run -Dspring-boot.run.profiles=dev -pl :web-api`
 
 ## Packaging
 
 By default, the application is packaged as a runnable jar. To wrap the application in a container see
 [this](https://spring.io/guides/topicals/spring-boot-docker) guide and a good start is to use the provided
-[Google Jib plugin](https://github.com/GoogleContainerTools/jib/tree/master/jib-maven-plugin):
+[Google Jib plugin](https://github.com/GoogleContainerTools/jib/tree/master/jib-maven-plugin): 
+`mvn jib:dockerBuild -pl :web-api`
 
-     mvn jib:dockerBuild -pl :web-api
-
-Inspect the image using `docker images` and to start the container use the command:
-
-    docker run -p 8080:8080 dk.bringlarsen/springboot-exploration
+Inspect the image using `docker images` and to start the container use the command: `docker run -p 8080:8080 dk.bringlarsen/springboot-exploration`
 
 Push it do Docker Hub by doing:
 
