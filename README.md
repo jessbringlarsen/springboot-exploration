@@ -56,5 +56,12 @@ Push it do Docker Hub by doing:
     docker login
     docker push jebla/springboot-exploration:latest
 
+## Development
+
+During development a database is needed and one can be spun up with the command:
+ 
+    cd presentation/web-api/src/docker
+    docker compose start db
+
 Happy coding!
 
