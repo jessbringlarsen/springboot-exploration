@@ -24,6 +24,14 @@ To start up the project locally using Maven do:
 
     mvn spring-boot:run -pl :web-api
 
+### Configuration
+
+If you wish to override the properties provided on classpath use the `spring.config.additional-location` property. Below is an example when using the Spring boot Maven plugin:
+
+    mvn spring-boot:run -Dspring-boot.run.profiles=dev -Dspring-boot.run.jvmArguments="-Dspring.config.additional-location=optional:file:c:/temp/app.properties" -pl :web-api
+
+See the [Spring documentation](https://docs.spring.io/spring-boot/docs/3.1.4/reference/htmlsingle/#features.external-config.files) for details.
+
 ### Profiles
 
 There are three profiles `dev`, `test` and `prod` defined in the `application.properties` file. 
