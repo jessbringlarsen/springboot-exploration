@@ -2,9 +2,7 @@
 
 ## Build
 
-To build the project do:
-
-    mvn package
+To build the project do: `mvn package`
 
 ## Startup
 
