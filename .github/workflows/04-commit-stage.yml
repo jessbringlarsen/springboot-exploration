@@ -52,7 +52,7 @@ jobs:
           docker tag dk.bringlarsen/springboot-exploration ${{secrets.AWS_ACCOUNT_ID}}.dkr.ecr.${{vars.AWS_REGION}}.amazonaws.com/springboot-exploration:${DOCKER_IMAGE_TAG}
           docker tag dk.bringlarsen/springboot-exploration ${{secrets.AWS_ACCOUNT_ID}}.dkr.ecr.${{vars.AWS_REGION}}.amazonaws.com/springboot-exploration:${POM_VERSION}
           docker tag dk.bringlarsen/springboot-exploration ${{secrets.AWS_ACCOUNT_ID}}.dkr.ecr.${{vars.AWS_REGION}}.amazonaws.com/springboot-exploration:latest
-          aws ecr get-login-password --region ${{vars.AWS_REGION}} | docker login --username AWS --password-stdin ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{vars.AWS_REGION}}.amazonaws.com
-          docker push ${{secrets.AWS_ACCOUNT_ID}}.dkr.ecr.${{vars.AWS_REGION}}.amazonaws.com/springboot-exploration:${DOCKER_IMAGE_TAG}
-          docker push ${{secrets.AWS_ACCOUNT_ID}}.dkr.ecr.${{vars.AWS_REGION}}.amazonaws.com/springboot-exploration:${POM_VERSION}
-          docker push ${{secrets.AWS_ACCOUNT_ID}}.dkr.ecr.${{vars.AWS_REGION}}.amazonaws.com/springboot-exploration:latest
+          #aws ecr get-login-password --region ${{vars.AWS_REGION}} | docker login --username AWS --password-stdin ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{vars.AWS_REGION}}.amazonaws.com
+          #docker push ${{secrets.AWS_ACCOUNT_ID}}.dkr.ecr.${{vars.AWS_REGION}}.amazonaws.com/springboot-exploration:${DOCKER_IMAGE_TAG}
+          #docker push ${{secrets.AWS_ACCOUNT_ID}}.dkr.ecr.${{vars.AWS_REGION}}.amazonaws.com/springboot-exploration:${POM_VERSION}
+          #docker push ${{secrets.AWS_ACCOUNT_ID}}.dkr.ecr.${{vars.AWS_REGION}}.amazonaws.com/springboot-exploration:latest
