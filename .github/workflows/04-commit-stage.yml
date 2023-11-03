@@ -1,4 +1,4 @@
-name: 04 - Commit stag
+name: 04 - Commit stage
 
 on:
   push:
