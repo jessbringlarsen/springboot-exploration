@@ -41,6 +41,12 @@ jobs:
 
       - name: Publish Docker image to ECR registry
         working-directory: deployment
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
+          AWS_REGION: ${{ vars.AWS_REGION }}
+          AWS_APPLICATION_NAME: ${{ vars.AWS_APPLICATION_NAME }}
         run: |
           docker tag dk.bringlarsen/springboot-exploration ${{secrets.AWS_ACCOUNT_ID}}.dkr.ecr.${{vars.AWS_REGION}}.amazonaws.com/springboot-exploration:${DOCKER_IMAGE_TAG}
           docker tag dk.bringlarsen/springboot-exploration ${{secrets.AWS_ACCOUNT_ID}}.dkr.ecr.${{vars.AWS_REGION}}.amazonaws.com/springboot-exploration:${POM_VERSION}
