@@ -4,6 +4,7 @@ import dk.bringlarsen.application.usecase.ConstraintValidationTest;
 import dk.bringlarsen.application.usecase.UseCaseValidationException;
 import dk.bringlarsen.application.usecase.customer.CreateCustomerUseCase.Input;
 import dk.bringlarsen.domain.service.CustomerRepository;
+import io.micrometer.observation.ObservationRegistry;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -18,11 +19,14 @@ class CreateCustomerUseCaseInputValidationTest extends ConstraintValidationTest 
 
     @Mock
     CustomerRepository repository;
+    @Mock
+    ObservationRegistry observationRegistry;
+
     CreateCustomerUseCase useCase;
 
     @BeforeEach
     void setup() {
-        useCase = new CreateCustomerUseCase(validator, repository);
+        useCase = new CreateCustomerUseCase(validator, repository, observationRegistry);
     }
 
     @ParameterizedTest

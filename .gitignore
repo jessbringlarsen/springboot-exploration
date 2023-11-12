@@ -61,3 +61,4 @@ buildNumber.properties
 
 # Ignore files from the flattened plugin
 .flattened-pom.xml
+settings.json

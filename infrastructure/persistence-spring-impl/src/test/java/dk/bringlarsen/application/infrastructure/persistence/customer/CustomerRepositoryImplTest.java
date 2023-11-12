@@ -4,10 +4,12 @@ import dk.bringlarsen.application.domain.model.Customer;
 import dk.bringlarsen.application.infrastructure.persistence.BaseRepositoryTest;
 import dk.bringlarsen.domain.service.Pageable;
 import dk.bringlarsen.domain.service.PersistException;
+import io.micrometer.observation.ObservationRegistry;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -27,11 +29,14 @@ class CustomerRepositoryImplTest extends BaseRepositoryTest {
 
     @Autowired
     CustomerSpringDataRepository springDataRepository;
+
+    @Mock
+    ObservationRegistry observationRegistry;
     CustomerRepositoryImpl repository;
 
     @BeforeEach
     void setUp() {
-        repository = new CustomerRepositoryImpl(springDataRepository, new CustomerMapper());
+        repository = new CustomerRepositoryImpl(observationRegistry, springDataRepository, new CustomerMapper());
     }
 
     @Test
