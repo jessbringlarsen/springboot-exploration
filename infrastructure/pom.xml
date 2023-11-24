@@ -16,6 +16,7 @@
     <modules>
         <module>service-spring-impl</module>
         <module>persistence-spring-impl</module>
+        <module>persistence-jdbc-impl</module>
     </modules>
 
 </project>
