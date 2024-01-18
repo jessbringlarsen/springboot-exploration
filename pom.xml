@@ -92,7 +92,6 @@
                             <suppressionFile>dependency-check-suppression.xml</suppressionFile>
                         </suppressionFiles>
                         <formats>JUNIT,HTML</formats>
-                        <cveStartYear>2015</cveStartYear>
                         <skipTestScope>true</skipTestScope>
                     </configuration>
                 </plugin>
