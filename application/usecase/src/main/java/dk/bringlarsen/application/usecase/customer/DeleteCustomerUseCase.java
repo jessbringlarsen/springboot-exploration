@@ -11,11 +11,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 
-/**
- * ***********************************
- * #HandsOn - Implement DeleteCustomer
- * ***********************************
- */
 @Component
 public class DeleteCustomerUseCase extends AbstractUseCase<DeleteCustomerUseCase.Input, Void> {
 

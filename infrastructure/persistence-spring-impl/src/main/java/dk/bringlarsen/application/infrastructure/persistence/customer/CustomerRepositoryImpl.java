@@ -56,11 +56,6 @@ class CustomerRepositoryImpl implements CustomerRepository {
             .toList();
     }
 
-    /**
-     * ***********************************
-     * #HandsOn - Implement DeleteCustomer
-     * ***********************************
-     */
     @Override
     public void delete(String id) {
         customerRepository.deleteById(UUID.fromString(id));
