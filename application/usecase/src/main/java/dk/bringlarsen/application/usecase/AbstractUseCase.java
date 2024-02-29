@@ -2,15 +2,21 @@ package dk.bringlarsen.application.usecase;
 
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Set;
 
 public abstract class AbstractUseCase<T, R> {
 
+    private final Logger logger = LoggerFactory.getLogger(getClass());
+
     private final Validator validator;
+    private final PerformanceMonitor<R> performanceMonitor;
 
     protected AbstractUseCase(Validator validator) {
         this.validator = validator;
+        this.performanceMonitor = new PerformanceMonitor<>();
     }
 
     private Set<ConstraintViolation<T>> isValid(T input) {
@@ -22,7 +28,7 @@ public abstract class AbstractUseCase<T, R> {
         if (!violations.isEmpty()) {
             throw new UseCaseValidationException(violations);
         }
-        return doExecute(input);
+        return performanceMonitor.intercept(logger, () -> doExecute(input));
     }
 
     public abstract R doExecute(T input);
