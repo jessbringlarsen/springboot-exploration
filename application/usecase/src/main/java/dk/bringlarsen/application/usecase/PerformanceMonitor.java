@@ -1,20 +1,18 @@
 package dk.bringlarsen.application.usecase;
 
 import org.slf4j.Logger;
-import org.springframework.util.StopWatch;
 
 import java.util.function.Supplier;
 
 class PerformanceMonitor<R> {
 
     R intercept(Logger logger, Supplier<R> method) {
-        StopWatch stopWatch = new StopWatch("execute");
-        stopWatch.start();
+        long startTime = System.currentTimeMillis();
         try {
             return method.get();
         } finally {
-            stopWatch.stop();
-            logger.trace(stopWatch.shortSummary());
+            long endTime = System.currentTimeMillis();
+            logger.trace("execution_time_in_ms={}", (endTime - startTime));
         }
     }
 }
