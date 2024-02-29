@@ -38,21 +38,11 @@ public class CustomerSteps {
         assertEquals(name, customer.get().name());
     }
 
-    /**
-     * ***********************************
-     * #HandsOn - Implement DeleteCustomer
-     * ***********************************
-     */
     @And("the customer is deleted")
     public void theCustomerIsDeleted() {
         customerAPI.delete(newCustomerLink);
     }
 
-    /**
-     * ***********************************
-     * #HandsOn - Implement DeleteCustomer
-     * ***********************************
-     */
     @Then("expect that the customer is not found")
     public void expectCustomerToBeDeleted() {
         Optional<CustomerDTO> customer = customerAPI.lookup(newCustomerLink);

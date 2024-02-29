@@ -11,11 +11,6 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
-/**
- * ***********************************
- * #HandsOn - Implement DeleteCustomer
- * ***********************************
- */
 @RestController
 @Tag(name = "Customer")
 public class DeleteCustomerController {
