@@ -11,7 +11,7 @@ import java.lang.annotation.*;
 @Target({ElementType.FIELD, ElementType.METHOD, ElementType.PARAMETER, ElementType.ANNOTATION_TYPE})
 public @interface ValidId {
 
-    String message() default "not valid";
+    String message() default "not valid, expected a UUID!";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
 }
