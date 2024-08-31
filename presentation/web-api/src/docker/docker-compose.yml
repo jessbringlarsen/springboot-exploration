@@ -15,7 +15,7 @@ services:
 
   app:
     container_name: app
-    image: jebla/springboot-exploration:latest
+    image: dk.bringlarsen/springboot-exploration:latest
     environment:
       - SPRING_PROFILES_ACTIVE=dev
       - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/test
