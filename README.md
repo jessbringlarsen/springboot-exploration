@@ -42,12 +42,11 @@ Doing the same using the Spring Boot Maven plugin:
 
 ## Packaging
 
-By default, the application is packaged as a runnable jar. To wrap the application in a container see
-[this](https://spring.io/guides/topicals/spring-boot-docker) guide and a good start is to use the provided
-[Google Jib plugin](https://github.com/GoogleContainerTools/jib/tree/master/jib-maven-plugin): 
-`mvn jib:dockerBuild -pl :web-api`
+By default, the application is packaged as a runnable jar. To wrap the application in a container using buildpacks do: 
 
-Inspect the image using `docker images` and to start the container use the command: `docker run -p 8080:8080 dk.bringlarsen/springboot-exploration`
+    mvn spring-boot:build-image -pl :web-api
+
+Start the application using the `docker-compose.yml` or start the container use the command: `docker run -p 8080:8080 dk.bringlarsen/springboot-exploration`
 
 Push it do Docker Hub by doing:
 

@@ -118,6 +118,10 @@
                         <buildpacks>
                             <buildpack>paketobuildpacks/java</buildpack>
                         </buildpacks>
+                        <env>
+                            <BP_JVM_VERSION>21</BP_JVM_VERSION>
+                        </env>
+                        <name>dk.bringlarsen/springboot-exploration</name>
                         <builder>paketobuildpacks/builder-jammy-buildpackless-tiny</builder>
                     </image>
                 </configuration>
