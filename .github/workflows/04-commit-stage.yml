@@ -32,7 +32,7 @@ jobs:
         run: mvn -B install -DskipITs
 
       - name: Create docker image
-        run: mvn jib:dockerBuild -pl :web-api
+        run: mvn spring-boot:build-image -pl :web-api
 
       - name: Extract application version
         run: echo "POM_VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_ENV
