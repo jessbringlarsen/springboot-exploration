@@ -66,6 +66,11 @@
             <artifactId>postgresql</artifactId>
             <scope>runtime</scope>
         </dependency>
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <scope>runtime</scope>
+        </dependency>
 
         <!-- Test -->
         <dependency>
@@ -102,24 +107,14 @@
                             <goal>build-info</goal>
                         </goals>
                     </execution>
-                    <execution>
-                        <id>process-aot</id>
-                        <goals>
-                            <goal>process-aot</goal>
-                        </goals>
-                    </execution>
                 </executions>
                 <configuration>
                     <image>
-                        <env>
-                            <BP_JVM_CDS_ENABLED>true</BP_JVM_CDS_ENABLED>
-                            <BP_SPRING_AOT_ENABLED>true</BP_SPRING_AOT_ENABLED>
-                        </env>
                         <buildpacks>
                             <buildpack>paketobuildpacks/java</buildpack>
                         </buildpacks>
                         <env>
-                            <BP_JVM_VERSION>21</BP_JVM_VERSION>
+                            <BP_JVM_VERSION>17</BP_JVM_VERSION>
                         </env>
                         <name>dk.bringlarsen/springboot-exploration</name>
                         <builder>paketobuildpacks/builder-jammy-buildpackless-tiny</builder>
@@ -158,22 +153,6 @@
                             <version>${org.mapstruct.version}</version>
                         </path>
                     </annotationProcessorPaths>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>com.google.cloud.tools</groupId>
-                <artifactId>jib-maven-plugin</artifactId>
-                <version>3.4.3</version>
-                <configuration>
-                    <container>
-                        <mainClass>dk.bringlarsen.application.Application</mainClass>
-                    </container>
-                    <from>
-                        <image>gcr.io/distroless/java17-debian11@sha256:3b4c112d0abce29f1cf093a04034455650ef135f10007d62909aecf46c67c688</image>
-                    </from>
-                    <to>
-                        <image>dk.bringlarsen/springboot-exploration</image>
-                    </to>
                 </configuration>
             </plugin>
         </plugins>
