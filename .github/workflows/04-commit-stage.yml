@@ -34,6 +34,9 @@ jobs:
       - name: Create docker image
         run: mvn spring-boot:build-image -pl :web-api
 
+      - name: Accept stage
+        run: mvn -B verify -pl acceptance-tests
+
       - name: Extract application version
         run: echo "POM_VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_ENV
 
