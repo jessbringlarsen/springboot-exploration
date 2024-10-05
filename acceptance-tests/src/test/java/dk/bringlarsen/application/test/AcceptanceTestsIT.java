@@ -11,6 +11,7 @@ import org.testcontainers.containers.output.Slf4jLogConsumer;
 import org.testcontainers.containers.wait.strategy.Wait;
 
 import java.io.File;
+import java.time.Duration;
 
 @Suite
 @SelectClasspathResource("dk/bringlarsen/application/test")
@@ -20,7 +21,7 @@ public class AcceptanceTestsIT {
 
     static ComposeContainer composeContainer = new ComposeContainer(new File("src/test/resources/docker-compose.yml"))
         .withLogConsumer("app", new Slf4jLogConsumer(LOG)) // Adjust the loglevel in logback-test.xml if logs needs to be inspected
-        .withExposedService("app", 8080, Wait.forHttp("/actuator").forStatusCode(200));
+        .withExposedService("app", 8080, Wait.forHttp("/actuator").forStatusCode(200).withStartupTimeout(Duration.ofMinutes(2)));
 
     @BeforeAll
     public static void setup() {
