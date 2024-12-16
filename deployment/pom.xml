@@ -11,7 +11,7 @@
     <artifactId>deployment</artifactId>
 
     <properties>
-        <cdk.version>2.97.1</cdk.version>
+        <cdk.version>2.173.1</cdk.version>
         <constructs.version>[10.0.0,11.0.0)</constructs.version>
         <junit.version>5.11.3</junit.version>
     </properties>
