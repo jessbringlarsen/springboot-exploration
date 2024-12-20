@@ -6,36 +6,35 @@ import dk.bringlarsen.application.usecase.customer.CreateCustomerUseCase;
 import dk.bringlarsen.application.usecase.customer.CreateCustomerUseCase.Input;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.context.annotation.Import;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
+import org.springframework.test.web.servlet.assertj.MockMvcTester;
+import org.springframework.test.web.servlet.assertj.MvcTestResult;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@ExtendWith(MockitoExtension.class)
+@WebMvcTest(CreateCustomerController.class)
+@Import(CustomerDTOMapperImpl.class)
 class CreateCustomerControllerTest {
 
-    @Mock
+    @MockitoBean
     CreateCustomerUseCase useCase;
-    MockMvc mockMvc;
+    @Autowired
+    MockMvcTester mockMvcTester;
     MockHttpServletRequestBuilder request;
 
     @BeforeEach
     void setup() {
-        this.mockMvc = MockMvcBuilders
-            .standaloneSetup(new CreateCustomerController(useCase, new CustomerDTOMapperImpl()))
-            .build();
-
         request = MockMvcRequestBuilders
-            .post("/customers/")
+            .post("/customers")
             .contentType(MediaType.APPLICATION_JSON)
             .content("""
                 {"CustomerName":"test"}
@@ -43,26 +42,26 @@ class CreateCustomerControllerTest {
     }
 
     @Test
-    void givenValidRequestExpectCustomerIsCreated() throws Exception {
+    void givenValidRequestExpectCustomerIsCreated() {
         when(useCase.execute(any(Input.class)))
             .thenReturn(new Customer("1", "test"));
 
-        mockMvc.perform(request)
-            .andExpect(status().isCreated())
-            .andExpect(jsonPath("$.links[?(@.rel == 'self')].href")
-                .value("http://localhost/customers/1"))
-            .andExpect(jsonPath("id")
-                .value("1"))
-            .andExpect(jsonPath("name")
-                .value("test"));
+        MvcTestResult result = mockMvcTester.perform(request);
+
+        assertThat(result).hasStatus(HttpStatus.CREATED);
+        assertThat(result).bodyJson()
+            .hasPath("id")
+            .hasPath("name");
+        assertThat(result).bodyJson()
+            .extractingPath("$._links.self.href").asString().contains("/customers/1");
+
     }
 
     @Test
-    void givenMissingBodyExpectBadRequest() throws Exception {
+    void givenMissingBodyExpectBadRequest() {
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders
-            .post("/customers/");
+            .post("/customers");
 
-        mockMvc.perform(request)
-            .andExpect(status().isBadRequest());
+        mockMvcTester.perform(request).assertThat().hasStatus(HttpStatus.BAD_REQUEST);
     }
 }
