@@ -4,66 +4,56 @@ import dk.bringlarsen.application.domain.model.Customer;
 import dk.bringlarsen.application.resources.customer.mapper.CustomerDTOMapperImpl;
 import dk.bringlarsen.application.usecase.customer.GetCustomerUseCase;
 import dk.bringlarsen.application.usecase.customer.GetCustomerUseCase.Input;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.context.annotation.Import;
+import org.springframework.http.HttpStatus;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
+import org.springframework.test.web.servlet.assertj.MockMvcTester;
+import org.springframework.test.web.servlet.assertj.MvcTestResult;
 
 import java.util.Optional;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@ExtendWith(MockitoExtension.class)
+@WebMvcTest(GetCustomerController.class)
+@Import(CustomerDTOMapperImpl.class)
 class GetCustomerControllerTest {
 
-    @Mock
+    @MockitoBean
     GetCustomerUseCase useCase;
-    MockMvc mockMvc;
-
-    @BeforeEach
-    void setup() {
-        this.mockMvc = MockMvcBuilders
-            .standaloneSetup(new GetCustomerController(useCase, new CustomerDTOMapperImpl()))
-            .build();
-    }
+    @Autowired
+    MockMvcTester mockMvcTester;
 
     @Test
-    void givenValidRequestExpectCustomer() throws Exception {
+    void givenValidRequestExpectCustomer() {
         when(useCase.execute(any(Input.class))).thenReturn(Optional.of(new Customer("1", "test")));
-        MockHttpServletRequestBuilder request = MockMvcRequestBuilders.get("/customers/1");
 
-        mockMvc.perform(request)
-            .andExpect(status().isOk())
-            .andExpect(jsonPath("$.links[?(@.rel == 'self')].href")
-                .value("http://localhost/customers/1"))
-            .andExpect(jsonPath("id")
-                .value("1"))
-            .andExpect(jsonPath("name")
-                .value("test"));
+        MvcTestResult result = mockMvcTester.get().uri("/customers/1").exchange();
+
+        assertThat(result)
+            .hasStatusOk();
+        assertThat(result).bodyJson()
+            .hasPath("id")
+            .hasPath("name");
+        assertThat(result).bodyJson()
+            .extractingPath("$._links.self.href").asString().contains("/customers/1");
     }
 
     @Test
-    void givenMissingIdExpectStatusNotFound() throws Exception {
-        MockHttpServletRequestBuilder request = MockMvcRequestBuilders.get("/customers/");
-
-        mockMvc.perform(request)
-            .andExpect(status().isNotFound());
+    void givenMissingIdExpectStatusNotFound() {
+        mockMvcTester.get().uri("/customers")
+            .assertThat().hasStatus(HttpStatus.NOT_FOUND);
     }
 
     @Test
-    void givenUnknownIdExpectStatusNotFound() throws Exception {
+    void givenUnknownIdExpectStatusNotFound() {
         when(useCase.execute(any(Input.class))).thenReturn(Optional.empty());
-        MockHttpServletRequestBuilder request = MockMvcRequestBuilders.get("/customers/1");
 
-        mockMvc.perform(request)
-            .andExpect(status().isNotFound());
+        mockMvcTester.get().uri("/customers/1")
+            .assertThat().hasStatus(HttpStatus.NOT_FOUND);
     }
 }
