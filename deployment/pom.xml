@@ -49,7 +49,7 @@
         <dependency>
             <groupId>dev.stratospheric</groupId>
             <artifactId>cdk-constructs</artifactId>
-            <version>0.1.14</version>
+            <version>0.1.15</version>
         </dependency>
 
         <dependency>
