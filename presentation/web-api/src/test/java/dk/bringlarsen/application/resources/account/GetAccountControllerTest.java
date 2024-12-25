@@ -7,7 +7,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.context.annotation.Import;
-import org.springframework.http.MediaType;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.assertj.MockMvcTester;
 import org.springframework.test.web.servlet.assertj.MvcTestResult;
@@ -34,11 +33,7 @@ class GetAccountControllerTest {
         when(useCase.execute(any(GetAccountUseCase.Input.class)))
             .thenReturn(Optional.of(new Account(UUID.randomUUID(), UUID.randomUUID(), "test", List.of())));
 
-        MvcTestResult result = mockMvcTester.get().uri("/customers/1/accounts/1")
-            .contentType(MediaType.APPLICATION_JSON)
-            .content("""
-                {"balance":"0"}
-                """).exchange();
+        MvcTestResult result = mockMvcTester.get().uri("/customers/1/accounts/1").exchange();
 
         assertThat(result)
             .hasStatusOk();
