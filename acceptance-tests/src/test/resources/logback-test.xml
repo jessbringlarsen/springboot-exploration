@@ -2,5 +2,5 @@
 <configuration>
     <include resource="org/springframework/boot/logging/logback/base.xml"/>
     <statusListener class="ch.qos.logback.core.status.NopStatusListener"/>
-    <root level="info"/>
+    <root level="off"/>
 </configuration>
