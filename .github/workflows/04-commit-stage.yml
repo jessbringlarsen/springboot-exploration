@@ -13,7 +13,7 @@ on:
 
 jobs:
   build-and-publish:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     name: Build and publish
     outputs:
       dockerImageTag: ${{ steps.dockerImageTag.outputs.tag }}
@@ -21,11 +21,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Set up JDK 17
+      - name: Set up JDK 21
         uses: actions/setup-java@v3
         with:
           distribution: 'temurin'
-          java-version: 17
+          java-version: 21
           cache: maven
 
       - name: Build
