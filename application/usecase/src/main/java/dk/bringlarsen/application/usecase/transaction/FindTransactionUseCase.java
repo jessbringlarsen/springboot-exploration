@@ -16,7 +16,7 @@ import java.util.UUID;
 @Component
 public class FindTransactionUseCase extends AbstractUseCase<FindTransactionUseCase.Input, List<Transaction>> {
 
-    @Value("${FindAccountsUseCase.maxPageSize:100}")
+    @Value("${usecase.findtransaction.maxpagesize:100}")
     private int maxPageSize;
     private final TransactionRepository repository;
 
