@@ -15,7 +15,7 @@
     <packaging>pom</packaging>
 
     <properties>
-        <java.version>21</java.version>
+        <java.version>24</java.version>
         <org.mapstruct.version>1.6.3</org.mapstruct.version>
         <org.jacoco.version>0.8.13</org.jacoco.version>
         <sonar.coverage.jacoco.xmlReportPaths>
