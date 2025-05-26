@@ -12,7 +12,7 @@ schedules:
 steps:
   - task: JavaToolInstaller@0
     inputs:
-      versionSpec: '17'
+      versionSpec: '24'
       jdkArchitectureOption: 'x64'
       jdkSourceOption: 'PreInstalled'
 
