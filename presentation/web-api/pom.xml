@@ -116,7 +116,7 @@
                         <env>
                             <BP_JVM_VERSION>${java.version}</BP_JVM_VERSION>
                         </env>
-                        <name>dk.bringlarsen/springboot-exploration</name>
+                        <name>jebla/springboot-exploration</name>
                         <builder>paketobuildpacks/builder-jammy-buildpackless-tiny</builder>
                     </image>
                 </configuration>

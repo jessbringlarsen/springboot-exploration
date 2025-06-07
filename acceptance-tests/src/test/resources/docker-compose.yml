@@ -9,7 +9,7 @@ services:
       - "5432:5432"
 
   app:
-    image: dk.bringlarsen/springboot-exploration:latest
+    image: jebla/springboot-exploration:latest
     environment:
       - SPRING_PROFILES_ACTIVE=test
       - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/test
