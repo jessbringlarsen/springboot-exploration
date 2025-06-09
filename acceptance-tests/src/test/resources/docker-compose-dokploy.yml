@@ -21,6 +21,7 @@ services:
       - dokploy-network
     ports:
       - "8080:8080"
+
 networks:
   dokploy-network:
     external: true
