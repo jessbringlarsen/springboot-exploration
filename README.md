@@ -44,7 +44,7 @@ Doing the same using the Spring Boot Maven plugin:
 
 By default, the application is packaged as a runnable jar. To wrap the application in a container using buildpacks do: 
 
-    mvn spring-boot:build-image -pl :web-api
+`mvn spring-boot:build-image -pl :web-api`
 
 Start the application using the `docker-compose.yml` or start the container use the command: `docker run -p 8080:8080 dk.bringlarsen/springboot-exploration`
 
