@@ -61,4 +61,3 @@ During development a database is needed and one can be spun up with the command:
     docker compose start db
 
 Happy coding!
-
