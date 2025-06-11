@@ -32,7 +32,7 @@ jobs:
         run: mvn -B install -DskipITs
 
       - name: Create docker image
-        run: mvn spring-boot:build-image -pl :web-api
+        run: mvn spring-boot:build-image -pl :web-api -DskipTests
 
       - name: Accept stage
         run: mvn -B verify -pl acceptance-tests
@@ -43,19 +43,11 @@ jobs:
       - name: Create Docker image tag
         run: echo "DOCKER_IMAGE_TAG=$(date +'%Y%m%d%H%M%S')-${GITHUB_SHA}" >> $GITHUB_ENV
 
-      #- name: Publish Docker image to ECR registry
-      #  working-directory: deployment
-      #  env:
-      #    AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      #    AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      #    AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
-      #    AWS_REGION: ${{ vars.AWS_REGION }}
-      #    AWS_APPLICATION_NAME: ${{ vars.AWS_APPLICATION_NAME }}
-      #  run: |
-      #    docker tag dk.bringlarsen/springboot-exploration ${{secrets.AWS_ACCOUNT_ID}}.dkr.ecr.${{vars.AWS_REGION}}.amazonaws.com/springboot-exploration:${DOCKER_IMAGE_TAG}
-      #    docker tag dk.bringlarsen/springboot-exploration ${{secrets.AWS_ACCOUNT_ID}}.dkr.ecr.${{vars.AWS_REGION}}.amazonaws.com/springboot-exploration:${POM_VERSION}
-      #    docker tag dk.bringlarsen/springboot-exploration ${{secrets.AWS_ACCOUNT_ID}}.dkr.ecr.${{vars.AWS_REGION}}.amazonaws.com/springboot-exploration:latest
-      #    aws ecr get-login-password --region ${{vars.AWS_REGION}} | docker login --username AWS --password-stdin ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{vars.AWS_REGION}}.amazonaws.com
-      #    docker push ${{secrets.AWS_ACCOUNT_ID}}.dkr.ecr.${{vars.AWS_REGION}}.amazonaws.com/springboot-exploration:${DOCKER_IMAGE_TAG}
-      #    docker push ${{secrets.AWS_ACCOUNT_ID}}.dkr.ecr.${{vars.AWS_REGION}}.amazonaws.com/springboot-exploration:${POM_VERSION}
-      #    docker push ${{secrets.AWS_ACCOUNT_ID}}.dkr.ecr.${{vars.AWS_REGION}}.amazonaws.com/springboot-exploration:latest
+      - name: Publish Docker image to ECR registry
+        working-directory: deployment
+        env:
+          USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          SECRET: ${{ secrets.DOCKER_PASSWORD }}
+        run: |
+          docker login -u ${{USERNAME}} -p ${{SECRET}}
+          docker push jebla/springboot-exploration:latest
