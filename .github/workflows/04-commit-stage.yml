@@ -43,7 +43,7 @@ jobs:
       - name: Create Docker image tag
         run: echo "DOCKER_IMAGE_TAG=$(date +'%Y%m%d%H%M%S')-${GITHUB_SHA}" >> $GITHUB_ENV
 
-      - name: Publish Docker image to ECR registry
+      - name: Publish Docker image to registry
         working-directory: deployment
         env:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
