@@ -46,8 +46,8 @@ jobs:
       - name: Publish Docker image to ECR registry
         working-directory: deployment
         env:
-          USERNAME: ${{ secrets.DOCKER_USERNAME }}
-          SECRET: ${{ secrets.DOCKER_PASSWORD }}
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
         run: |
-          docker login -u ${{USERNAME}} -p ${{SECRET}}
+          docker login -u ${{secrets.DOCKER_USERNAME}} -p ${{secrets.DOCKER_PASSWORD}}
           docker push jebla/springboot-exploration:latest
