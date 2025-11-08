@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.5.0</version>
+        <version>3.5.7</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
@@ -15,7 +15,7 @@
     <packaging>pom</packaging>
 
     <properties>
-        <java.version>24</java.version>
+        <java.version>25</java.version>
         <org.mapstruct.version>1.6.3</org.mapstruct.version>
         <org.jacoco.version>0.8.13</org.jacoco.version>
         <sonar.coverage.jacoco.xmlReportPaths>
