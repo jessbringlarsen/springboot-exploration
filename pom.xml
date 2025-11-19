@@ -17,7 +17,6 @@
     <properties>
         <java.version>25</java.version>
         <org.mapstruct.version>1.6.3</org.mapstruct.version>
-        <org.testcontainers.version>2.0.1</org.testcontainers.version>
         <org.jacoco.version>0.8.13</org.jacoco.version>
         <sonar.coverage.jacoco.xmlReportPaths>
             ../../shared/coverage-report/target/site/jacoco-aggregate/jacoco.xml
